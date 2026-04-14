@@ -29,13 +29,17 @@ jobs:
         run: |
           mkdir -p ~/.dbt
           echo "$DBT_PROFILES_YML" > ~/.dbt/profiles.yml
-          printf "$DBT_PRIVATE_KEY" > ~/.dbt/rsa_key
+          echo "$DBT_PRIVATE_KEY_BASE64" | base64 --decode > ~/.dbt/rsa_key
           chmod 600 ~/.dbt/rsa_key
         env:
           DBT_PROFILES_YML: ${{ secrets.DBT_PROFILES_YML }}
-          DBT_PRIVATE_KEY: ${{ secrets.DBT_PRIVATE_KEY }}
+          DBT_PRIVATE_KEY_BASE64: ${{ secrets.DBT_PRIVATE_KEY_BASE64 }}
 
-
+      - name: Verify private key format
+        run: |
+          echo "Checking key format..."
+          head -2 ~/.dbt/rsa_key
+          tail -2 ~/.dbt/rsa_key
 
       - name: Install dbt deps
         run: dbt deps
