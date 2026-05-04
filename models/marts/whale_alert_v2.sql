@@ -13,6 +13,7 @@ order by total_sent desc
 )
 
 select 
+'{{ invocation_id }}' as invocation_id,
 w.output_address,
 w.total_sent,
 w.tx_count

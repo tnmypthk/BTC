@@ -1,7 +1,10 @@
 {{config(materialized= 'incremental', incremental_strategy = 'merge',
 unique_key = 'HASH_KEY')}}
 
-select * from {{source('btc','btc')}}
+select 
+'{{ invocation_id }}' as invocation_id, 
+* 
+from {{source('btc','btc')}}
 
 {% if is_incremental() %}
 
