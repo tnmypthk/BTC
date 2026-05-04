@@ -23,6 +23,7 @@ and tx.BLOCK_TIMESTAMP >= (select max(BLOCK_TIMESTAMP) from {{ this }} )
 
 )
 select
+'{{ invocation_id }}' as invocation_id,
 hash_key,
 block_number,
 block_timestamp,
